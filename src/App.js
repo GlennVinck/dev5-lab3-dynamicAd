@@ -15,14 +15,32 @@ export default class App {
     //url: https://api.open-meteo.com/v1/forecast?latitude=51&longitude=4&hourly=temperature&current_weather=true&forecast_days=1
     //fetch, then log result
     fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&hourly=temperature&current_weather=true&forecast_days=1`
+      `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&current=temperature_2m,is_day,rain,snowfall,cloud_cover&timezone=Europe%2FLondon&forecast_days=1`
     )
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        document.querySelector("h2").innerHTML =
-          data.current_weather.temperature + "°C";
-        this.getPlaylist();
+        document.querySelector("#temp").innerHTML =
+          data.current.temperature_2m + "°C";
+
+        let weather;
+        if (data.current.rain > 0) {
+          weather = "rainy";
+        } else if (data.current.cloud_cover > 50) {
+          weather = "cozy+coffee";
+        } else {
+          weather = "sunny";
+        }
+
+        if (data.current.rain > 0) {
+          document.querySelector("#rainornot").innerHTML = weather;
+        } else if (data.current.cloud_cover > 50) {
+          document.querySelector("#rainornot").innerHTML = "cloudy";
+        } else {
+          document.querySelector("#rainornot").innerHTML = weather;
+        }
+
+        this.getPlaylist(weather);
       });
   }
 
@@ -49,14 +67,14 @@ export default class App {
     }
   }
 
-  async getPlaylist() {
+  async getPlaylist(weather) {
     try {
       const token = await this.spotifyApiToken();
 
       //url: https://api.spotify.com/v1/search?q=rainy&type=playlist
       //fetch, then log result
       const response = await fetch(
-        `https://api.spotify.com/v1/search?q=rainy&type=playlist`,
+        `https://api.spotify.com/v1/search?q=${weather}&type=playlist`,
         {
           method: "GET",
           headers: {

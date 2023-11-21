@@ -29,6 +29,12 @@ h1 {
 
 h2 {
   font-size: 1.5em;
+  color: #1db954;
+}
+
+h3 {
+  font-size: 1em;
+  margin: 8px 0;
 }
 
 #ad {
@@ -43,13 +49,20 @@ h2 {
 }
 
 #weather-container {
-  padding: 2em;
   background-color: #161616;
 }
 
 #spotify-container {
-  padding: 2em;
   background-color: #161616;
+}
+
+.playlist-img {
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10%;
+  object-fit: contain;
 }
 
 #logo {
