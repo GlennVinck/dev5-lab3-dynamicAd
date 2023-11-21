@@ -86,8 +86,10 @@ export default class App {
       const data = await response.json();
       console.log(data);
 
-      const { playlistName, playlistImage } = this.getRandomPlaylist(data);
+      const { playlistUrl, playlistName, playlistImage } =
+        this.getRandomPlaylist(data);
       this.displayPlaylist(playlistName, playlistImage);
+      this.clickablePlaylist(playlistUrl);
     } catch (error) {
       console.error("Error getting playlist:", error);
     }
@@ -98,16 +100,24 @@ export default class App {
     let random = Math.floor(Math.random() * 20);
     console.log(random);
     let playlistId = data.playlists.items[random].id;
+    let playlistUrl = data.playlists.items[random].external_urls.spotify;
     let playlistName = data.playlists.items[random].name;
     let playlistImage = data.playlists.items[random].images[0].url;
-    console.log(playlistId, playlistName, playlistImage);
+    console.log(playlistId, playlistUrl, playlistName, playlistImage);
 
-    return { playlistName, playlistImage };
+    return { playlistUrl, playlistName, playlistImage };
   }
 
   displayPlaylist(playlistName, playlistImage) {
     //display playlist in DOM
     document.querySelector(".playlist-title").innerHTML = playlistName;
     document.querySelector(".playlist-img").src = playlistImage;
+  }
+
+  clickablePlaylist(playlistUrl) {
+    //make .playlist-img clickable
+    document.querySelector(".playlist-img").addEventListener("click", () => {
+      window.open(playlistUrl);
+    });
   }
 }
