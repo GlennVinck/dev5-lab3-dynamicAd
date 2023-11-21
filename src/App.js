@@ -67,8 +67,29 @@ export default class App {
 
       const data = await response.json();
       console.log(data);
+
+      const { playlistName, playlistImage } = this.getRandomPlaylist(data);
+      this.displayPlaylist(playlistName, playlistImage);
     } catch (error) {
       console.error("Error getting playlist:", error);
     }
+  }
+
+  getRandomPlaylist(data) {
+    //choose random playlist
+    let random = Math.floor(Math.random() * 20);
+    console.log(random);
+    let playlistId = data.playlists.items[random].id;
+    let playlistName = data.playlists.items[random].name;
+    let playlistImage = data.playlists.items[random].images[0].url;
+    console.log(playlistId, playlistName, playlistImage);
+
+    return { playlistName, playlistImage };
+  }
+
+  displayPlaylist(playlistName, playlistImage) {
+    //display playlist in DOM
+    document.querySelector(".playlist-title").innerHTML = playlistName;
+    document.querySelector(".playlist-img").src = playlistImage;
   }
 }
