@@ -24,20 +24,30 @@ export default class App {
           data.current.temperature_2m + "°C";
 
         let weather;
-        if (data.current.rain > 0) {
+        if (data.current.snowfall > 0) {
+          weather = "snowy";
+
+          document.querySelector("#rainornot").innerHTML = weather;
+          document.querySelector(".weather-icon").style.backgroundImage =
+            "url('img/svg/snowy.svg')";
+        } else if (data.current.rain > 0) {
           weather = "rainy";
+
+          document.querySelector("#rainornot").innerHTML = weather;
+          document.querySelector(".weather-icon").style.backgroundImage =
+            "url('img/svg/rainy.svg')";
         } else if (data.current.cloud_cover > 50) {
           weather = "cozy+coffee";
+
+          document.querySelector("#rainornot").innerHTML = "cloudy";
+          document.querySelector(".weather-icon").style.backgroundImage =
+            "url('img/svg/cloudy.svg')";
         } else {
           weather = "sunny";
-        }
 
-        if (data.current.rain > 0) {
           document.querySelector("#rainornot").innerHTML = weather;
-        } else if (data.current.cloud_cover > 50) {
-          document.querySelector("#rainornot").innerHTML = "cloudy";
-        } else {
-          document.querySelector("#rainornot").innerHTML = weather;
+          document.querySelector(".weather-icon").style.backgroundImage =
+            "url('img/svg/day.svg')";
         }
 
         this.getPlaylist(weather);
