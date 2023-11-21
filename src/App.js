@@ -113,6 +113,13 @@ export default class App {
     let playlistUrl = data.playlists.items[random].external_urls.spotify;
     let playlistName = data.playlists.items[random].name;
     let playlistImage = data.playlists.items[random].images[0].url;
+
+    const maxLength = 25;
+    playlistName =
+      playlistName.length > maxLength
+        ? playlistName.substring(0, maxLength) + "..."
+        : playlistName;
+
     console.log(playlistId, playlistUrl, playlistName, playlistImage);
 
     return { playlistUrl, playlistName, playlistImage };
